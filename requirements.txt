@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+anthropic
+psycopg[binary]
+python-dotenv
+psycopg[binary, pool]
+langchain-openai
+pytest
+pytest-asyncio
+httpx
