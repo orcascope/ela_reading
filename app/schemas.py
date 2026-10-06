@@ -27,3 +27,13 @@ class VocabularyList(BaseModel):
     context_note:str 
     created_at:datetime
     lesson_title:str 
+
+
+class Book(BaseModel):
+    book_id: int 
+    title: str 
+    author:str 
+    chapter_count: int
+
+class BookList(BaseModel):
+    pass

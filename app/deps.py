@@ -4,15 +4,11 @@ import json, os
 from pathlib import Path
 from typing import Optional
 
-
-
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
-
-from . import db, llm
 
 
 async def get_db(request:Request):
@@ -41,20 +37,22 @@ def strip_prefix(full_id: str, lesson_id: str) -> str:
     return full_id[len(lesson_id) + 1:]
 
 
+def make_explain_cache_key(student_id, selected_text):
+    return selected_text.lower()
 
 
-@app.get("/api/test_route")
-async def run_test(conn=Depends(get_db)):
-    cur = await conn.execute("SELECT count(*) FROM vocabulary")
-    row= await cur.fetchall()
-    print(row)
-    return row
-
-# ------------------------------------------------------------------ static --
-
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+async def check_selected_text_in_cache(conn, cache_key)->str:
+    cur = await conn.execute("SELECT meaning, fit from cached_meanings where cache_key = %s",
+             (cache_key,))
+    return await cur.fetchone()
 
 
-@app.get("/")
-def index():
-    return FileResponse(STATIC_DIR / "index.html")
+async def insert_seltext_meaning_in_cache(conn, cache_key, selected_text, result)->str:
+
+    meaning = result.get("meaning")
+    await conn.execute("INSERT into cached_meanings" \
+            "(cache_key, selected_text, meaning, fit)" \
+            "VALUES(%s, %s, %s, %s)", (cache_key, selected_text, 
+                                   result["meaning"], result["fit"]))
+    await conn.commit()
+    return "inserted"

@@ -17,6 +17,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from pydantic import BaseModel, ValidationError
 from langchain.chat_models import init_chat_model
 
+
 MODEL = "system.ai.meta-llama-3-3-70b-instruct"
 DATABRICKS_TOKEN = os.getenv("LLM_ACCESS_KEY")
 
@@ -50,7 +51,7 @@ def build_client(provider, base_url, model, kwargs):
 class TextExplanation(BaseModel):
     """The model's answer: what the selection means, and how it fits the passage."""
     meaning: str
-    fit: str
+    fit: str|None
 
 class ExplainError(RuntimeError):
     """Raised when the explanation could not be produced."""
@@ -103,7 +104,9 @@ async def explain_selection(client, selected_text: str, context: str) -> AsyncIt
 def make_sse_packet(event_name, data):
     return f"event:{event_name}\ndata:{json.dumps(data)}\n\n"
 
-async def explain_selection_sse(client, selected_text: str, context: str) -> AsyncIterator[str]:
+async def explain_selection_sse(client, selected_text: str, 
+                                context: str,
+                                on_done) -> AsyncIterator[str]:
     """ yields text pieces"""
     prompt = PROMPT_TEMPLATE.format(selected_text=selected_text, context=context)
     
@@ -120,12 +123,18 @@ async def explain_selection_sse(client, selected_text: str, context: str) -> Asy
             async for chunk in response:
                 last = chunk
                 yield make_sse_packet("partial", last)
-            TextExplanation.model_validate(last)
-            yield make_sse_packet("done", last)
+            TextExplanation.model_validate(last)             
     except Exception as exc:
             log.exception("error in sse")
             yield make_sse_packet("error", {"message": "api_request_failed"})
-            
+            return
+    
+    if on_done:            
+        try:
+            await on_done(last)
+        except Exception:
+            log.exception("error in sse")
+    yield make_sse_packet("done", last)
 
 
 async def run():

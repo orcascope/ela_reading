@@ -6,7 +6,7 @@ import json
 
 from app.schemas import *
 
-router= APIRouter(prefix="/students")
+router= APIRouter()
 
 
 @router.post("/api/students")
@@ -30,8 +30,8 @@ async def create_or_get_student(body: StudentCreate, conn=Depends(get_db)):
 
 # ------------------------------------------------------------------- books --
 
-@router.get("/api/books")
-async def list_books(conn=Depends(get_db)):
+@router.get("/api/books", response_model=list[Book])
+async def list_books(conn=Depends(get_db))->BookList:
     cur = await conn.execute("SELECT book_id, title, author, chapter_count FROM books ORDER BY title")
     return await cur.fetchall()
 

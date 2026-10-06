@@ -5,3 +5,5 @@ ela/
 **/__pycache__/
 *.py[cod]
 *$py.class
+sample_material/
+book_pdf/

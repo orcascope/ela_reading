@@ -91,3 +91,12 @@ CREATE TABLE IF NOT EXISTS vocabulary (
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS vocabulary_student ON vocabulary (student_id, created_at DESC);
+
+DROP TABLE IF EXISTS cached_meanings;
+CREATE TABLE cached_meanings (
+    cache_key     TEXT PRIMARY KEY,
+    selected_text TEXT NOT NULL,
+    meaning       TEXT NOT NULL,
+    fit           TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS cached_meanings_key ON cached_meanings (cache_key);

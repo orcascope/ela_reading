@@ -6,7 +6,7 @@ import json
 
 from app.schemas import *
 
-router= APIRouter(prefix="/lessons")
+router= APIRouter()
 
 
 @router.get("/api/lessons/{lesson_id}")
@@ -143,3 +143,20 @@ async def update_progress(lesson_id: str, body: ProgressUpdate, conn=Depends(get
 
     await conn.commit()
     return {"grading": grading, "next_lesson_id": next_lesson_id}
+
+
+@router.get("/api/test_route")
+async def run_test(conn=Depends(get_db)):
+    cur = await conn.execute("SELECT count(*) FROM vocabulary")
+    row= await cur.fetchall()
+    print(row)
+    return row
+
+# ------------------------------------------------------------------ static --
+
+# router.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
+# @router.get("/")
+# def index():
+#     return FileResponse(STATIC_DIR / "index.html")
