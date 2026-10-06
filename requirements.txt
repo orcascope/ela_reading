@@ -1,11 +1,14 @@
-fastapi
-uvicorn[standard]
-anthropic
-psycopg[binary]
-python-dotenv
-psycopg[binary, pool]
-langchain-openai
-pytest
-pytest-asyncio
-httpx
-databricks-sdk
+fastapi==0.142.2
+uvicorn[standard]==0.54.0
+pydantic==2.13.5
+python-dotenv==1.2.4
+psycopg[binary]==3.3.6
+psycopg-pool==3.3.3
+databricks-sdk==0.147.0
+langchain==1.4.3
+langchain-core==1.6.6
+langchain-openai==1.6.7
+langchain-anthropic==1.7.5
+httpx==0.28.1
+pytest==9.1.1
+pytest-asyncio==1.4.0
