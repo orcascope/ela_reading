@@ -1,0 +1,12 @@
+command: ['python', '-m', 'app.run']
+env:
+  - name: 'DATABRICKS_HOST'
+    value: 'https://dbc-d7d09c06-4d54.cloud.databricks.com/'
+  - name: 'DATABRICKS_CLIENT_ID'
+    value: '3a876e3e-454f-4783-b036-6e410ec6fd7f'
+  - name: 'LAKEBASE_ENDPOINT'
+    value: 'projects/elaread/branches/production/endpoints/primary'
+  - name: 'LAKEBASE_HOST'
+    value: 'ep-mute-shadow-d8be9fuw.database.us-east-2.cloud.databricks.com'
+  - name: 'LAKEBASE_DB'
+    value: 'databricks_postgres'

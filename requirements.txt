@@ -8,3 +8,4 @@ langchain-openai
 pytest
 pytest-asyncio
 httpx
+databricks-sdk

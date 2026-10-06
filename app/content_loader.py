@@ -6,9 +6,8 @@ Usage (run from ela_read/):
     python -m app.content_loader --all
     python -m app.content_loader fwtbt
 """
-import argparse
-import json
-import sys
+import argparse, json, sys, asyncio
+import selectors
 from pathlib import Path
 
 from . import db
@@ -135,6 +134,7 @@ def main(argv=None) -> bool:
         print("nothing to load", file=sys.stderr)
         return False
 
+    
     conn = db.connect_sync()
     try:
         for p in book_paths:
@@ -146,4 +146,4 @@ def main(argv=None) -> bool:
 
 
 if __name__ == "__main__":
-    sys.exit(0 if main() else 1)
+    main()

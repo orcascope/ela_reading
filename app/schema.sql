@@ -2,7 +2,7 @@
 -- idempotent, so it is safe to run against an existing database. Same
 -- Postgres server/database as the AMC app, but its own schema and tables.
 
-CREATE SCHEMA IF NOT EXISTS ela_read;
+--CREATE SCHEMA IF NOT EXISTS ela_read;
 
 -- Content tables: upserted from content/books/*.json and
 -- content/lessons/<book_id>/*.json by app/content_loader.py, run manually
