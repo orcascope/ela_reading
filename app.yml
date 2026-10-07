@@ -14,5 +14,5 @@ env:
     value: 'databricks_postgres'
   - name: 'LLM_ACCESS_KEY'
     valueFrom: 'secret'  
-  # - name: 'DATABRICKS_CLIENT_SECRET_DB'
-  #   valueFrom: 'secret'        
+  - name: 'LLM_PROVIDER'
+    value: 'databricks'  
