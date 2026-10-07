@@ -2,8 +2,8 @@ command: ['python', '-m', 'app.run']
 env:
   - name: 'DATABRICKS_HOST'
     value: 'https://dbc-d7d09c06-4d54.cloud.databricks.com/'
-  - name: 'DATABRICKS_CLIENT_ID'
-    value: '3a876e3e-454f-4783-b036-6e410ec6fd7f'
+  # - name: 'DATABRICKS_CLIENT_ID'
+  #   value: '3a876e3e-454f-4783-b036-6e410ec6fd7f'
   - name: 'LAKEBASE_ENDPOINT'
     value: 'projects/elaread/branches/production/endpoints/primary'
   - name: 'LAKEBASE_HOST'
@@ -12,5 +12,5 @@ env:
     value: 'databricks_postgres'
   - name: 'LLM_ACCESS_KEY'
     valueFrom: 'secret'  
-  - name: 'DATABRICKS_CLIENT_SECRET_DB'
-    valueFrom: 'secret'        
+  # - name: 'DATABRICKS_CLIENT_SECRET_DB'
+  #   valueFrom: 'secret'        

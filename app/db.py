@@ -41,9 +41,9 @@ from psycopg_pool import AsyncConnectionPool
 
 async def open_pool()->AsyncConnectionPool:
     w=WorkspaceClient(
-        host=os.getenv("DATABRICKS_HOST"),
-        client_id=os.getenv("DATABRICKS_CLIENT_ID"),
-        client_secret=os.getenv("DATABRICKS_CLIENT_SECRET_DB")
+        # host=os.getenv("DATABRICKS_HOST"),
+        # client_id=os.getenv("DATABRICKS_CLIENT_ID"),
+        # client_secret=os.getenv("DATABRICKS_CLIENT_SECRET_DB")
     )
     me = w.current_user.me()
 
