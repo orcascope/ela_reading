@@ -10,3 +10,5 @@ env:
     value: 'ep-mute-shadow-d8be9fuw.database.us-east-2.cloud.databricks.com'
   - name: 'LAKEBASE_DB'
     value: 'databricks_postgres'
+  - name: 'LLM_ACCESS_KEY'
+    valueFrom: 'secret'    
