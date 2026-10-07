@@ -100,7 +100,7 @@ def connect_sync():
     credential = w.postgres.generate_database_credential(endpoint=os.getenv("LAKEBASE_ENDPOINT"))
     
     conn = psycopg.connect(
-        conninfo=f"host={os.environ['PGHOST']} dbname={os.environ.get('PGDATABASE')} user={os.environ['PGUSER']} port={os.getenv("PGPORT")} sslmode=require",
+        conninfo=f"host={os.environ['PGHOST']} dbname={os.environ.get('PGDATABASE')} user={os.environ['PGUSER']} port={os.getenv('PGPORT')} sslmode=require",
         password=credential.token,
         row_factory=dict_row,
         options=SEARCH_PATH,
