@@ -4,6 +4,8 @@ env:
     value: 'https://dbc-d7d09c06-4d54.cloud.databricks.com/'
   # - name: 'DATABRICKS_CLIENT_ID'
   #   value: '3a876e3e-454f-4783-b036-6e410ec6fd7f'
+  - name: 'DATABRICKS_CLIENT_ID'
+    value: '055f5565-35a6-477f-9431-be4839c03af5'
   - name: 'LAKEBASE_ENDPOINT'
     value: 'projects/elaread/branches/production/endpoints/primary'
   - name: 'LAKEBASE_HOST'
