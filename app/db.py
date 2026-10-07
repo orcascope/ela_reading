@@ -45,8 +45,14 @@ async def open_pool()->AsyncConnectionPool:
         client_id=os.getenv("DATABRICKS_CLIENT_ID"),
         client_secret=os.getenv("DATABRICKS_CLIENT_SECRET_DB")
     )
+    me = w.current_user.me()
+
+    print(f"Name: {me.display_name}")
+    print(f"Email: {me.emails}")
+    print(f"ID: {me.id}")
+    print(f"Active: {me.active}")
     credential = w.postgres.generate_database_credential(endpoint=os.getenv("LAKEBASE_ENDPOINT"))
-    print(credential)
+
     pool=AsyncConnectionPool(
         conninfo=f"host={os.environ['LAKEBASE_HOST']} dbname={os.environ.get('LAKEBASE_DB', 'databricks_postgres')} user={os.environ['DATABRICKS_CLIENT_ID']} port=5432 sslmode=require",
         kwargs={"password": credential.token,
