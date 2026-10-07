@@ -26,20 +26,11 @@ from psycopg_pool import ConnectionPool
 
 from databricks.sdk import WorkspaceClient
 
-w = WorkspaceClient()
-
 APP_DIR = Path(__file__).resolve().parent
-# ROOT = APP_DIR.parent
 SEARCH_PATH = "-c search_path=ela_read"
 
 
 TOKEN_REUSE_SECONDS = 45 * 60
-
-# ON_DATABRICKS_APP = bool(os.environ.get("DATABRICKS_APP_PORT"))
-# ON_DATABRICKS_JOB = bool(os.environ.get("USE_LAKEBASE"))
-
-# if not (ON_DATABRICKS_APP or ON_DATABRICKS_JOB):
-#     load_dotenv(ROOT / ".env")
 
 _schema_ready = False
 _workspace = None
@@ -49,8 +40,13 @@ _token = None           # (token, fetched_at)
 from psycopg_pool import AsyncConnectionPool
 
 async def open_pool()->AsyncConnectionPool:
-    w=WorkspaceClient()
+    w=WorkspaceClient(
+        host=os.getenv("DATABRICKS_HOST"),
+        client_id=os.getenv("DATABRICKS_CLIENT_ID"),
+        client_secret=os.getenv("DATABRICKS_CLIENT_SECRET")
+    )
     credential = w.postgres.generate_database_credential(endpoint=os.getenv("LAKEBASE_ENDPOINT"))
+    print(credential)
     pool=AsyncConnectionPool(
         conninfo=f"host={os.environ['LAKEBASE_HOST']} dbname={os.environ.get('LAKEBASE_DB', 'databricks_postgres')} user={os.environ['DATABRICKS_CLIENT_ID']} port=5432 sslmode=require",
         kwargs={"password": credential.token,
@@ -98,7 +94,7 @@ def connect_sync():
     """Blocking connection for scripts (content_loader). The server uses connect()."""
     w=WorkspaceClient()
     credential = w.postgres.generate_database_credential(endpoint=os.getenv("LAKEBASE_ENDPOINT"))
-    
+
     conn = psycopg.connect(
         conninfo=f"host={os.environ['PGHOST']} dbname={os.environ.get('PGDATABASE')} user={os.environ['PGUSER']} port={os.getenv('PGPORT')} sslmode=require",
         password=credential.token,
