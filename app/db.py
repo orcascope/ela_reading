@@ -43,7 +43,7 @@ async def open_pool()->AsyncConnectionPool:
     w=WorkspaceClient(
         host=os.getenv("DATABRICKS_HOST"),
         client_id=os.getenv("DATABRICKS_CLIENT_ID"),
-        client_secret=os.getenv("DATABRICKS_CLIENT_SECRET")
+        client_secret=os.getenv("DATABRICKS_CLIENT_SECRET_DB")
     )
     credential = w.postgres.generate_database_credential(endpoint=os.getenv("LAKEBASE_ENDPOINT"))
     print(credential)

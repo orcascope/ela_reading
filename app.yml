@@ -11,4 +11,6 @@ env:
   - name: 'LAKEBASE_DB'
     value: 'databricks_postgres'
   - name: 'LLM_ACCESS_KEY'
-    valueFrom: 'secret'    
+    valueFrom: 'secret'  
+  - name: 'DATABRICKS_CLIENT_SECRET_DB'
+    valueFrom: 'secret'        
