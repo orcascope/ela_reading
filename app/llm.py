@@ -27,8 +27,8 @@ def get_client():
     from langchain_openai import ChatOpenAI
     # MODEL = "system.ai.meta-llama-3-3-70b-instruct"
     MODEL =  "hobby.default.gptoss120"
-    # DATABRICKS_TOKEN = os.getenv("LLM_ACCESS_KEY")
-    # api_key=DATABRICKS_TOKEN
+    DATABRICKS_TOKEN = os.getenv("LLM_ACCESS_KEY")
+    api_key=DATABRICKS_TOKEN
     base_url="https://dbc-d7d09c06-4d54.cloud.databricks.com/ai-gateway/mlflow/v1"
     model=MODEL
     extra_args = {
@@ -38,7 +38,7 @@ def get_client():
         }
     #     )
     provider = os.getenv("LLM_PROVIDER")
-    return build_client(provider, base_url, model, extra_args, api_key=None )
+    return build_client(provider, base_url, model, extra_args, api_key=api_key )
 
 def build_client(provider, base_url, model, kwargs, api_key=None):
     if provider == 'databricks':
