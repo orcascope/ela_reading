@@ -19,15 +19,16 @@ from langchain.chat_models import init_chat_model
 
 
 MODEL = "system.ai.meta-llama-3-3-70b-instruct"
-DATABRICKS_TOKEN = os.getenv("LLM_ACCESS_KEY")
+# DATABRICKS_TOKEN = os.getenv("LLM_ACCESS_KEY")
 
 log = logging.getLogger(__name__)
 
 def get_client():
     from langchain_openai import ChatOpenAI
-    MODEL = "system.ai.meta-llama-3-3-70b-instruct"
-    DATABRICKS_TOKEN = os.getenv("LLM_ACCESS_KEY")
-    api_key=DATABRICKS_TOKEN
+    # MODEL = "system.ai.meta-llama-3-3-70b-instruct"
+    MODEL =  "hobby.default.gptoss120"
+    # DATABRICKS_TOKEN = os.getenv("LLM_ACCESS_KEY")
+    # api_key=DATABRICKS_TOKEN
     base_url="https://dbc-d7d09c06-4d54.cloud.databricks.com/ai-gateway/mlflow/v1"
     model=MODEL
     extra_args = {
@@ -37,13 +38,13 @@ def get_client():
         }
     #     )
     provider = os.getenv("LLM_PROVIDER")
-    return build_client(provider, base_url, model, extra_args  )
+    return build_client(provider, base_url, model, extra_args, api_key=None )
 
-def build_client(provider, base_url, model, kwargs):
+def build_client(provider, base_url, model, kwargs, api_key=None):
     if provider == 'databricks':
         print("init_chat")
         print(model)
-        return ChatOpenAI(model=model, base_url=base_url, api_key=DATABRICKS_TOKEN, **kwargs)
+        return ChatOpenAI(model=model, base_url=base_url, api_key=api_key, **kwargs)
     if provider == 'claude':
         return init_chat_model("claude:sonnet-5.5")
 
